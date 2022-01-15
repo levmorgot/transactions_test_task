@@ -1,9 +1,7 @@
-import 'package:json_annotation/json_annotation.dart';
+
+
 import 'package:transactions_test_task/features/transactions/domain/entities/transaction_entity.dart';
 
-part 'transaction_model.g.dart';
-
-@JsonSerializable()
 class TransactionModel extends TransactionEntity {
   const TransactionModel({
     required id,
@@ -21,8 +19,25 @@ class TransactionModel extends TransactionEntity {
           date: date,
         );
 
-  factory TransactionModel.fromJson(Map<String, dynamic> json) =>
-      _$TransactionModelFromJson(json);
+  factory TransactionModel.fromJson(Map<String, dynamic> json) {
+    return TransactionModel(
+      id: json['id'],
+      amount: json['amount'],
+      type: json['type'],
+      status: json['status'],
+      fee: json['fee'],
+      date: DateTime.parse(json['date'] as String),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TransactionModelToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'amount': amount,
+      'type': type,
+      'status': status,
+      'fee': fee,
+      'date': date.toIso8601String(),
+    };
+  }
 }

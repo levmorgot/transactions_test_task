@@ -15,10 +15,10 @@ abstract class ITransactionRemoteDataSource {
   Future<TransactionModel> cancelTransaction(TransactionModel transaction);
 }
 
-class TransactionsRemoteDataSource implements ITransactionRemoteDataSource {
+class TransactionRemoteDataSource implements ITransactionRemoteDataSource {
   final http.Client client;
 
-  TransactionsRemoteDataSource({required this.client});
+  TransactionRemoteDataSource({required this.client});
 
   @override
   Future<List<TransactionModel>> getAllTransactions() async {
@@ -42,17 +42,14 @@ class TransactionsRemoteDataSource implements ITransactionRemoteDataSource {
 
   Map<String, dynamic> _getFakeTransactions() {
     var fakeData = [];
-    var typeOperationList = List<TypeOperation>.from(TypeOperation.values)
-      ..shuffle();
-    var statusList = List<Status>.from(TypeOperation.values)..shuffle();
     for (var i = 0; i < 10; i++) {
       fakeData.add({
         'id': random.integer(999999, min: 1),
-        'amount': random.decimal(min: 0.0, scale: 2),
-        'type': typeOperationList.take(1).toList()[0],
-        'status': statusList.take(1).toList()[0],
-        'fee': random.decimal(min: 0.0, scale: 2),
-        'date': faker.date.dateTime(minYear: 2020, maxYear: 2022),
+        'amount': random.decimal(min: 234.0, scale: 27),
+        'type': typeOperationDict[TypeOperation.values[random.integer(TypeOperation.values.length, min: 0)].name.toString()],
+        'status': statusDict[Status.values[random.integer(Status.values.length, min: 0)].name.toString()],
+        'fee': random.decimal(min: 0.345, scale: 27),
+        'date': faker.date.dateTime(minYear: 2020, maxYear: 2022).toString(),
       });
     }
     return {'statusCode': 200, 'body': jsonEncode(fakeData)};
@@ -65,7 +62,7 @@ class TransactionsRemoteDataSource implements ITransactionRemoteDataSource {
     // final response = await client
     //     .get(Uri.parse(url), headers: {'Content-Type': 'application/json'});
     return Future.value(TransactionModel(
-        status: Status.done,
+        status: statusDict[Status.done.name.toString()],
         amount: amount,
         date: DateTime.now(),
         id: random.integer(999999, min: 1),
@@ -79,7 +76,7 @@ class TransactionsRemoteDataSource implements ITransactionRemoteDataSource {
     // final response = await client
     //     .get(Uri.parse(url), headers: {'Content-Type': 'application/json'});
     return Future.value(TransactionModel(
-        status: Status.canceled,
+        status: statusDict[Status.canceled.name.toString()],
         amount: transaction.amount,
         date: transaction.date,
         id: transaction.id,

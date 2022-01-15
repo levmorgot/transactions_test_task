@@ -1,39 +1,32 @@
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 enum TypeOperation {
-  @JsonValue("add")
   add,
-  @JsonValue("transaction")
   transaction,
-  @JsonValue("withdrawal")
   withdrawal
 }
 
-const Map<TypeOperation, String> typeOperationDict = {
-  TypeOperation.add: "Пополнение",
-  TypeOperation.transaction: "Перевод",
-  TypeOperation.withdrawal: "Снятие",
+const Map<String, String> typeOperationDict = {
+  'add': 'Пополнение',
+  'transaction': 'Перевод',
+  'withdrawal': 'Снятие',
 };
 
 enum Status {
-  @JsonValue("done")
   done,
-  @JsonValue("canceled")
   canceled,
 }
 
-const Map<TypeOperation, String> statusDict = {
-  TypeOperation.add: "Пополнение",
-  TypeOperation.transaction: "Перевод",
-  TypeOperation.withdrawal: "Снятие",
+const Map<String, String> statusDict = {
+  'done': 'Завершена',
+  'canceled': 'Отменена',
 };
 
 class TransactionEntity extends Equatable {
   final int id;
   final double amount;
-  final TypeOperation type;
-  final Status status;
+  final String type;
+  final String status;
   final double fee;
   final DateTime date;
 
