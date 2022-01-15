@@ -7,5 +7,5 @@ abstract class ITransactionRepository {
 
   Future<Either<Failure, TransactionEntity>> addTransaction(double amount, double fee, TypeOperation type);
 
-  Future<Either<Failure, TransactionEntity>> cancelTransaction(int id);
+  Future<Either<Failure, TransactionEntity>> cancelTransaction(TransactionEntity transaction);
 }

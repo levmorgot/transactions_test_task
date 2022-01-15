@@ -12,6 +12,6 @@ class CancelTransaction extends UseCase<TransactionEntity, CancelTransactionPara
 
   @override
   Future<Either<Failure, TransactionEntity>> call(params) async {
-    return await transactionRepository.cancelTransaction(params.id);
+    return await transactionRepository.cancelTransaction(params.transaction);
   }
 }
