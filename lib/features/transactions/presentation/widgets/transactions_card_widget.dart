@@ -45,7 +45,7 @@ class TransactionCard extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                '${transaction.amount.toStringAsFixed(2)} руб.',
+                '${transaction.amount} руб.',
                 style: const TextStyle(
                   color: AppColors.greyColor,
                   fontStyle: FontStyle.italic,

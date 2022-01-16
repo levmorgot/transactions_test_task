@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transactions_test_task/features/transactions/presentation/widgets/add_transaction_form_widget.dart';
-import 'package:transactions_test_task/features/transactions/presentation/widgets/transactions_chart_widget.dart';
+import 'package:transactions_test_task/features/transactions/presentation/pages/transactions_chart_screen.dart';
 import 'package:transactions_test_task/features/transactions/presentation/widgets/transactions_list_widget.dart';
 import 'package:transactions_test_task/features/users/presentation/bloc/user_cubit/user_cubit.dart';
 
@@ -43,7 +43,7 @@ class TransactionsPage extends StatelessWidget {
         body: const TabBarView(
           children: [
             TransactionsList(),
-            TransactionsChart(),
+            TransactionsChartPage(),
           ],
         ),
       ),

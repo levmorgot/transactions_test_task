@@ -22,10 +22,10 @@ class TransactionModel extends TransactionEntity {
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
       id: json['id'],
-      amount: json['amount'],
+      amount: double.parse((json['amount'] as double).toStringAsFixed(2)),
       type: json['type'],
       status: json['status'],
-      fee: json['fee'],
+      fee: double.parse((json['fee'] as double).toStringAsFixed(2)),
       date: DateTime.parse(json['date'] as String),
     );
   }
