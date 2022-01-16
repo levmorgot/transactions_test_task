@@ -10,7 +10,7 @@ abstract class ITransactionRemoteDataSource {
   Future<List<TransactionModel>> getAllTransactions();
 
   Future<TransactionModel> addTransactions(
-      double amount, double fee, TypeOperation type);
+      double amount, double fee, String type);
 
   Future<TransactionModel> cancelTransaction(TransactionModel transaction);
 }
@@ -57,7 +57,7 @@ class TransactionRemoteDataSource implements ITransactionRemoteDataSource {
 
   @override
   Future<TransactionModel> addTransactions(
-      double amount, double fee, TypeOperation type) {
+      double amount, double fee, String type) {
     // тут можо будет посылать запросы
     // final response = await client
     //     .get(Uri.parse(url), headers: {'Content-Type': 'application/json'});

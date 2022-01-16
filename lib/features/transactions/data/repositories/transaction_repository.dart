@@ -57,7 +57,7 @@ class TransactionRepository implements ITransactionRepository {
   }
 
   @override
-  Future<Either<Failure, TransactionEntity>> addTransaction(double amount, double fee, TypeOperation type) async {
+  Future<Either<Failure, TransactionEntity>> addTransaction(double amount, double fee, String type) async {
     TransactionEntity newTransaction = await remoteDataSource.addTransactions(amount, fee, type);
     var allTransactions = await getAllTransactions();
     return allTransactions.fold((failure) => Left(failure), (transactions) {
