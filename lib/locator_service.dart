@@ -7,6 +7,14 @@ import 'package:transactions_test_task/features/transactions/data/repositories/t
 import 'package:transactions_test_task/features/transactions/domain/repositories/transaction_repository.dart';
 import 'package:transactions_test_task/features/transactions/domain/usecases/get_all_transactions.dart';
 import 'package:transactions_test_task/features/transactions/presentation/bloc/transactions_list_cubit/transactions_list_cubit.dart';
+import 'package:transactions_test_task/features/users/data/datasources/user_local_data_sources.dart';
+import 'package:transactions_test_task/features/users/data/datasources/user_remote_data_sources.dart';
+import 'package:transactions_test_task/features/users/data/repositories/user_repository.dart';
+import 'package:transactions_test_task/features/users/domain/repositories/user_repository.dart';
+import 'package:transactions_test_task/features/users/domain/usecases/get_active_user_id.dart';
+import 'package:transactions_test_task/features/users/domain/usecases/login.dart';
+import 'package:transactions_test_task/features/users/domain/usecases/logout.dart';
+import 'package:transactions_test_task/features/users/presentation/bloc/user_cubit/user_cubit.dart';
 
 
 
@@ -18,13 +26,21 @@ Future<void> init() async {
     () => TransactionsListCubit(getAllTransactions: sl()),
   );
 
+  sl.registerFactory(
+        () => UserCubit(getActiveUserIdUC: sl(), logoutUC: sl(), loginUC: sl()),
+  );
+
 
 
   // UseCases
   sl.registerLazySingleton(() => GetAllTransactions(sl()));
 
+  sl.registerLazySingleton(() => GetActiveUserId(sl()));
+  sl.registerLazySingleton(() => Login(sl()));
+  sl.registerLazySingleton(() => Logout(sl()));
 
-  // Repository users
+
+  // Repository transactions
   sl.registerLazySingleton<ITransactionRepository>(
     () => TransactionRepository(
       remoteDataSource: sl(),
@@ -40,6 +56,25 @@ Future<void> init() async {
 
   sl.registerLazySingleton<ITransactionLocalDataSource>(
     () => TransactionLocalDataSource(sharedPreferences: sl()),
+  );
+
+
+  // Repository users
+  sl.registerLazySingleton<IUserRepository>(
+        () => UserRepository(
+      remoteDataSource: sl(),
+      localDataSource: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<IUserRemoteDataSource>(
+        () => UserRemoteDataSource(
+      client: http.Client(),
+    ),
+  );
+
+  sl.registerLazySingleton<IUserLocalDataSource>(
+        () => UserLocalDataSource(sharedPreferences: sl()),
   );
 
 

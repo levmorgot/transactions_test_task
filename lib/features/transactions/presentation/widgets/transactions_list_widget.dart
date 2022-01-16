@@ -12,6 +12,7 @@ class TransactionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<TransactionsListCubit>().loadTransactions();
     return BlocBuilder<TransactionsListCubit, TransactionState>(builder: (context, state) {
       List<TransactionEntity> transactions = [];
       if (state is TransactionLoadingState) {
