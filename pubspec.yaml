@@ -39,12 +39,10 @@ dependencies:
   dartz: ^0.10.1
   http: ^0.13.4
   build_runner: ^2.1.7
-  json_serializable: ^6.1.4
   shared_preferences: ^2.0.11
   flutter_bloc: ^8.0.0
   get_it: ^7.2.0
   faker: ^2.0.0
-  fl_chart: ^0.41.0
   syncfusion_flutter_charts: ^19.4.42
 
 dev_dependencies:
