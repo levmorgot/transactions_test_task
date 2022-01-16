@@ -5,6 +5,7 @@ import 'package:transactions_test_task/features/transactions/data/datasources/tr
 import 'package:transactions_test_task/features/transactions/data/datasources/transaction_remote_data_sources.dart';
 import 'package:transactions_test_task/features/transactions/data/repositories/transaction_repository.dart';
 import 'package:transactions_test_task/features/transactions/domain/repositories/transaction_repository.dart';
+import 'package:transactions_test_task/features/transactions/domain/usecases/cancel_transaction.dart';
 import 'package:transactions_test_task/features/transactions/domain/usecases/get_all_transactions.dart';
 import 'package:transactions_test_task/features/transactions/presentation/bloc/transactions_list_cubit/transactions_list_cubit.dart';
 import 'package:transactions_test_task/features/users/data/datasources/user_local_data_sources.dart';
@@ -23,7 +24,7 @@ final sl = GetIt.instance;
 Future<void> init() async {
   // BloC / Cubit
   sl.registerFactory(
-    () => TransactionsListCubit(getAllTransactions: sl()),
+    () => TransactionsListCubit(getAllTransactions: sl(), cancelTransaction: sl()),
   );
 
   sl.registerFactory(
@@ -34,6 +35,7 @@ Future<void> init() async {
 
   // UseCases
   sl.registerLazySingleton(() => GetAllTransactions(sl()));
+  sl.registerLazySingleton(() => CancelTransaction(sl()));
 
   sl.registerLazySingleton(() => GetActiveUserId(sl()));
   sl.registerLazySingleton(() => Login(sl()));

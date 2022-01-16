@@ -1,12 +1,18 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transactions_test_task/core/error/failure.dart';
+import 'package:transactions_test_task/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:transactions_test_task/features/transactions/domain/usecases/cancel_transaction.dart';
 import 'package:transactions_test_task/features/transactions/domain/usecases/get_all_transactions.dart';
+import 'package:transactions_test_task/features/transactions/domain/usecases/params/cancel_transaction_params.dart';
 import 'package:transactions_test_task/features/transactions/presentation/bloc/transactions_list_cubit/transactions_list_state.dart';
 
 class TransactionsListCubit extends Cubit<TransactionState> {
   final GetAllTransactions getAllTransactions;
+  final CancelTransaction cancelTransaction;
 
-  TransactionsListCubit({required this.getAllTransactions}) : super(TransactionEmptyState());
+  TransactionsListCubit(
+      {required this.getAllTransactions, required this.cancelTransaction})
+      : super(TransactionEmptyState());
 
   void loadTransactions() async {
     if (state is TransactionLoadingState) return;
@@ -16,8 +22,30 @@ class TransactionsListCubit extends Cubit<TransactionState> {
     final failureOrTransactions = await getAllTransactions(null);
 
     emit(failureOrTransactions.fold(
-        (failure) => TransactionErrorState(message: _mapFailureMessage(failure)),
+        (failure) =>
+            TransactionErrorState(message: _mapFailureMessage(failure)),
         (transactions) => TransactionLoadedState(transactions)));
+  }
+
+  void transactionCancel(TransactionEntity transaction) async {
+    if (state is TransactionLoadingState) return;
+
+    var currentState = state;
+
+    emit(TransactionLoadingState());
+
+    final failureOrTransactions = await cancelTransaction(
+        CancelTransactionParams(transaction: transaction));
+
+    emit(failureOrTransactions.fold(
+        (failure) =>
+            TransactionErrorState(message: _mapFailureMessage(failure)),
+        (canceledTransaction) {
+          var oldTransactions = (currentState as TransactionLoadedState).transactionsList;
+          oldTransactions.remove(transaction);
+          oldTransactions.add(canceledTransaction);
+          return TransactionLoadedState(oldTransactions);
+        } ));
   }
 
   String _mapFailureMessage(Failure failure) {
