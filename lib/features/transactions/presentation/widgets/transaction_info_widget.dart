@@ -25,7 +25,7 @@ class TransactionInfo extends StatelessWidget {
         ..._buildInfoField('Сумма:', '${transaction.amount} руб.'),
         ..._buildInfoField('Комиссия:', '${transaction.fee}%'),
         ..._buildInfoField('Итого:',
-            '${(transaction.amount + transaction.fee * transaction.amount / 100)} руб.'),
+            (transaction.amount + transaction.fee * transaction.amount / 100).toStringAsFixed(2)+ ' руб.'),
         ..._buildInfoField('Номер транзакции:', transaction.id),
         ..._buildInfoField('Тип операции:', transaction.type),
         ..._buildInfoField('Статус операции:', transaction.status),

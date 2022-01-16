@@ -34,7 +34,7 @@ class TransactionsPage extends StatelessWidget {
           bottom: const TabBar(
             tabs: [
               Tab(icon: Icon(Icons.money)),
-              Tab(icon: Icon(Icons.directions_transit)),
+              Tab(icon: Icon(Icons.pie_chart)),
             ],
           ),
           title: const Text('Транзакции'),
