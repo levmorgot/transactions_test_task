@@ -13,7 +13,8 @@ class TransactionsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<TransactionsListCubit>().loadTransactions();
-    return BlocBuilder<TransactionsListCubit, TransactionState>(builder: (context, state) {
+    return BlocBuilder<TransactionsListCubit, TransactionState>(
+        builder: (context, state) {
       List<TransactionEntity> transactions = [];
       if (state is TransactionLoadingState) {
         return const LoadingIndicator();
@@ -24,17 +25,37 @@ class TransactionsList extends StatelessWidget {
       } else if (state is TransactionLoadedState) {
         transactions = state.transactionsList;
       }
-      return ListView.separated(
-        padding: const EdgeInsets.all(8.0),
-        itemBuilder: (context, index) {
-          return TransactionCard(transaction: transactions[index]);
-        },
-        separatorBuilder: (context, index) {
-          return Divider(
-            color: Colors.grey[400],
-          );
-        },
-        itemCount: transactions.length,
+      return SizedBox(
+        child: ListView.separated(
+          padding: const EdgeInsets.all(8.0),
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Общее количесво транзакций ${transactions.length}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                        ),
+                      )),
+                  TransactionCard(transaction: transactions[index]),
+                ],
+              );
+            } else {
+              return TransactionCard(transaction: transactions[index]);
+            }
+          },
+          separatorBuilder: (context, index) {
+            return Divider(
+              color: Colors.grey[400],
+            );
+          },
+          itemCount: transactions.length,
+        ),
       );
     });
   }
